@@ -1,0 +1,34 @@
+
+<project name="RegercomDevQuickbuild" default="QuickBuild" basedir=".">
+  <description>
+        The Best Damn Build Process This Side of Sanity
+  </description>
+
+
+  <!-- Set internal script properties -->
+  <property name="lastbuild" location="builds/lastbuild/regerLicensing"/>
+  <property name="wardir" location="builds/WARs/regerLicensing"/>
+  <property name="javasrc" location="builds/lastbuild/regerLicensing/WEB-INF/classes"/>
+  <property name="builddir" location="builds"/>
+  <property name="sourcedir" location="source"/>
+
+	
+	<!-- Start Quick and artificial build -->
+	<target name="QuickBuild" description="Compile the java source and put in Tomcat working directory">
+  	 	<echo message="Compiling Java code."/>
+     	<copy todir="${lastbuild}" >
+            <fileset dir="${sourcedir}" excludes="**/Thumbs.db"/>
+        </copy>
+
+        <copy file="${lastbuild}/META-INF/context.xml" tofile="${lastbuild}/META-INF/context.xml"/>
+
+     	<javac srcdir="${javasrc}" destdir="C:\SuperFly\Tomcat\webapps\licensing\WEB-INF\classes" excludes="**.x" debug="on" />
+		<copy todir="C:\SuperFly\Tomcat\webapps\licensing\">
+			<fileset dir="${lastbuild}">
+			</fileset>
+		</copy>
+	</target>
+	<!-- End Quick and artificial build -->
+
+	
+</project>

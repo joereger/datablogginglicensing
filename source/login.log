@@ -1,0 +1,32 @@
+<%
+
+if (request.getParameter("action")!=null && request.getParameter("action").equals("login")){
+    if (request.getParameter("password")!=null){
+        if (request.getParameter("password").equals("catalyst")){
+            request.getSession().setAttribute("isloggedin", "1");
+            response.sendRedirect("index.log");
+            return;
+        }
+    }
+}
+
+
+
+StringBuffer output = new StringBuffer();
+
+
+output.append("<font face=arial style=\"font-size: 72px;\" color=#00ff00><b>Licensing</b></font><br>");
+output.append("<br>");
+
+output.append("<form action=login.log method=post>");
+output.append("<input type=hidden name=action value='login'>");
+output.append("<br><input type=text name=username> U");
+output.append("<br><input type=password name=password> P");
+output.append("<br><br><input type=submit value='Log In'>");
+output.append("</form>");
+
+//To screen
+out.print(output);
+
+
+%>

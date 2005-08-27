@@ -1,0 +1,24 @@
+<%@ page import="reger.core.db.Db"%>
+
+<%
+String pathToAppRoot = "";
+%>
+
+<%@ include file="globalheader.jsp" %>
+
+<%
+/*----------------------------------------------------*/
+/*                  Main Body                         */
+        StringBuffer mb = new StringBuffer();
+/*----------------------------------------------------*/
+
+
+
+//mb.append("<br><center><img src='images/licensing.gif'></center>");
+
+
+%>
+
+
+<%@ include file="globalfooter.jsp" %>
+

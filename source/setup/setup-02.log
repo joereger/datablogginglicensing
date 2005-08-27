@@ -1,0 +1,84 @@
+<%@ page import="reger.core.db.DbConfig"%>
+<%
+//Only do this page if we have an invalid database connection.
+//Otherwise, anybody's going to be able to reset the database
+//configuration whenever they want. Which isn't cool.
+if (DbConfig.haveValidConfig() && reger.core.dbupgrade.RequiredDatabaseVersion.havecorrectversion){
+    response.sendRedirect("setup-03.log");
+    return;
+}
+%>
+
+<%
+if (request.getParameter("action")!=null && request.getParameter("action").equals("docheck")){
+    if (!reger.core.dbupgrade.RequiredDatabaseVersion.havecorrectversion){
+        reger.scheduledtasks.Loader.startAMasterThread();
+    }
+}
+%>
+
+<html>
+<head>
+<!--meta http-equiv="refresh" content="2"-->
+
+
+<script
+language="JavaScript">
+var refreshinterval=2
+var displaycountdown="no"
+var starttime 
+var nowtime
+var reloadseconds=0
+var secondssinceloaded=0
+function starttime() {
+    starttime=new Date()
+    starttime=starttime.getTime()
+    countdown()
+}
+function countdown() {
+    nowtime= new Date()
+    nowtime=nowtime.getTime()
+    secondssinceloaded=(nowtime-starttime)/1000
+    reloadseconds=Math.round(refreshinterval-secondssinceloaded)
+    if (refreshinterval>=secondssinceloaded) {
+        var timer=setTimeout("countdown()",1000)
+    } else {
+        clearTimeout(timer)
+        window.location.reload(true)
+    }
+}
+window.onload=starttime
+</script>
+
+
+</head>
+<body>
+
+<font face=arial size=+3 color=#cccccc>Database Version Check</font>
+<br><br>
+<%
+StringBuffer bar = new StringBuffer();
+bar.append(reger.core.Util.getHtmlBarChart(reger.core.dbupgrade.RequiredDatabaseVersion.currentversion, reger.core.dbupgrade.RequiredDatabaseVersion.version, "../"));
+out.print(bar.toString());
+%>
+<br><br>
+<strong><font face=arial size=-1 style="font-size: 15px;">The required version is: <%=reger.core.dbupgrade.RequiredDatabaseVersion.version%> The installed version is: <%=reger.core.dbupgrade.RequiredDatabaseVersion.currentversion%>.  The max possible version is: <%=reger.core.dbupgrade.RequiredDatabaseVersion.maxversion%></font></strong>
+<%
+if (!reger.core.dbupgrade.RequiredDatabaseVersion.error.equals("")){
+%>
+<br><br>
+<strong><font face=arial size=-1 style="font-size: 15px;">There has been an error and the upgrade process has halted.  You will need to correct the problem and restart.  Or click <a href='setup-02.log?action=docheck'>here</a> to retry the database setup.  The reported error is:</font></strong>
+<br>
+<%=reger.core.dbupgrade.RequiredDatabaseVersion.error%>
+<br>
+<%
+} else {
+%>
+<br><br>
+<strong><font face=arial size=-1 style="font-size: 15px;">There is no reported error at this time.  The system is upgrading the database.  Give it a few minutes and click <a href='setup-02.log'>here</a> to refresh.  If you feel that there is not any progress after a couple minutes, please click <a href='setup-02.log?action=docheck'>here</a> to restart the process.</font></strong>
+<br>
+<%
+}
+%>
+</body>
+</html>

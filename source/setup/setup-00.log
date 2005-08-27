@@ -1,0 +1,11 @@
+
+
+<font face=arial size=+3 color=#cccccc>Welcome to Your licensing Server!</font>
+<br><br>
+<font face=arial size=+2 color=#cccccc>In the next few screens we'll make sure that your server is ready to function properly.</font>
+<br><br>
+
+<font face=arial size=-1 color=#cccccc><a href='setup-01-instructions.log'>No, the MySql database is not yet setup.  What do I need to do?</a></font>
+<br><br>
+<font face=arial size=-1 color=#cccccc><a href='setup-01.log'>Yes, the MySql database is setup and configured.</a></font>
+<br>

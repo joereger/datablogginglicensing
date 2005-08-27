@@ -1,0 +1,7 @@
+<%
+
+request.getSession().removeAttribute("isloggedin");
+response.sendRedirect("login.log");
+return;
+
+%>

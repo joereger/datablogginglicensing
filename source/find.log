@@ -1,0 +1,101 @@
+<%@ page import="reger.core.db.Db,
+                 reger.core.licensing.License,
+                 java.util.Hashtable,
+                 java.util.Iterator,
+                 java.util.Map,
+                 reger.licensingapi.LicenseDb"%>
+
+<%
+String pathToAppRoot = "";
+%>
+
+<%@ include file="globalheader.jsp" %>
+
+<%
+/*----------------------------------------------------*/
+/*                  Main Body                         */
+        StringBuffer mb = new StringBuffer();
+/*----------------------------------------------------*/
+
+//Search form
+mb.append("<form action=find.log method=post>");
+mb.append("<br><input type=text name=searchterm>");
+mb.append("<input type=submit value='Find'>");
+mb.append("</form><br><br>");
+
+
+
+//Display results
+
+String searchTerm = "";
+if (request.getParameter("searchterm")!=null){
+    searchTerm = request.getParameter("searchterm");
+}
+
+
+
+mb.append("<table cellpadding=10 cellspacing=0 border=0>");
+
+StringBuffer searchSql = new StringBuffer();
+String[] terms = searchTerm.split(" ");
+for (int i = 0; i < terms.length; i++) {
+    String thisTerm = reger.core.Util.cleanForSQL(terms[i]);
+    if (i>0){
+        searchSql.append(" AND ");
+    }
+    searchSql.append(" (decryptedlicense LIKE '%"+thisTerm+"%' OR address1 LIKE '%"+thisTerm+"%' OR name LIKE '%"+thisTerm+"%' OR address2 LIKE '%"+thisTerm+"%' OR city LIKE '%"+thisTerm+"%' OR state LIKE '%"+thisTerm+"%' OR zip LIKE '%"+thisTerm+"%' OR country LIKE '%"+thisTerm+"%') ");
+
+}
+
+//mb.append("<br>searchsql=" + searchSql + "<br>");
+
+//-----------------------------------
+//-----------------------------------
+String[][] rstLic= Db.RunSQL("SELECT licenseid FROM license WHERE " + searchSql.toString() + " ORDER BY licenseid DESC LIMIT 0,25");
+//-----------------------------------
+//-----------------------------------
+if (rstLic!=null && rstLic.length>0){
+    for(int i=0; i<rstLic.length; i++){
+        LicenseDb licDb = new LicenseDb(Integer.parseInt(rstLic[i][0]));
+
+        mb.append("<tr>");
+
+        mb.append("<td style=\"border-top: 1px solid #cccccc;\" bgcolor=#e6e6e6 valign=top><font face=arial size=-1><strong><a href='createlicense.log?licenseid="+licDb.getLicenseid()+"'>LicenseID: "+licDb.getLicenseid()+"</a></strong></font></td>");
+
+        mb.append("<td style=\"border-top: 1px solid #cccccc;\" bgcolor=#ffffff valign=top align=right><font face=arial size=-1 color=#cccccc>Name:<br>Addr1:<br>Addr2:<br>City:<br>State:<br>Zip:<br>Country:</font></td>");
+        mb.append("<td style=\"border-top: 1px solid #cccccc;\" bgcolor=#ffffff valign=top><font face=arial size=-1><strong>"+licDb.getName()+"<br>"+licDb.getAddress1()+"<br>"+licDb.getAddress2()+"<br>"+licDb.getCity()+"<br>"+licDb.getState()+"<br>"+licDb.getZip()+"<br>"+licDb.getCountry()+"</strong></font></td>");
+
+
+
+        String decryptedLicense = licDb.getDecryptedlicense();
+        String[] nameValuePairs = decryptedLicense.split("&");
+        StringBuffer nvp = new StringBuffer();
+        for (int j = 0; j < nameValuePairs.length; j++) {
+            String nameValuePair = nameValuePairs[j];
+            nvp.append(nameValuePair + "<br>");
+        }
+
+        mb.append("<td style=\"border-top: 1px solid #cccccc;\" bgcolor=#ffffff valign=top><font face=arial size=-2 color=#999999><strong>"+nvp.toString()+"</strong></font></td>");
+
+        mb.append("</tr>");
+
+    }
+}
+
+mb.append("</table>");
+
+
+
+
+
+
+
+
+
+
+
+%>
+
+
+<%@ include file="globalfooter.jsp" %>
+

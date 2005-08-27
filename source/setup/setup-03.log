@@ -1,0 +1,19 @@
+<%@ page import="reger.core.db.DbConfig,
+                 reger.core.db.Db,
+                 reger.core.Util"%>
+<%
+//Only do this page if we have an invalid database connection.
+//Otherwise, anybody's going to be able to reset the database
+//configuration whenever they want. Which isn't cool.
+if (!DbConfig.haveValidConfig()){
+    response.sendRedirect("setup-01.log");
+    return;
+}
+if (!reger.core.dbupgrade.RequiredDatabaseVersion.havecorrectversion){
+    response.sendRedirect("setup-02.log");
+    return;
+}
+
+response.sendRedirect("../index.log");
+return;
+%>

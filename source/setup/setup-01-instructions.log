@@ -1,0 +1,46 @@
+
+
+<font face=arial size=+3 color=#cccccc>MySql Database Setup Instructions</font>
+<br><br>
+<font face=arial size=+2 color=#cccccc>This page describes what you need to do to install and configure a MySql database to run with the blogging server.</font>
+<br><br>
+<font face=arial size=-1 color=#666666>
+
+<ol>
+<li>Download the MySql Database Server 4.1</li>
+   <ul>
+   <li>Find the files at <a href='http://dev.mysql.com/downloads/mysql/4.1.html'>http://www.mysql.com</a>.</li>
+   <li>Scroll to the operating system that the database server will be running on.</li>
+   <li>Choose the Database Server file and download it.</li>
+   </ul>
+
+<li>Install MySql</li>
+   <ul>
+   <li>For help, <a href='http://dev.mysql.com/doc/mysql/en/installing.html'>http://dev.mysql.com/doc/mysql/en/installing.html</a>.</li>
+   <li>Generally speaking, this amounts to downloading an executable, running it and following the instructions.</li>
+   <li>Configure the server to run in daemon mode or service mode so that it's always available to your blogging server.</li>
+   </ul>
+
+<li>Create a Database</li>
+   <ul>
+   <li>Once the database is installed, your first task is to create an empty database.</li>
+   <li>You may want to use a graphical tool like the <a href='http://www.mysql.com/products/administrator/'>MySql Administrator</a>.</li>
+   <li>Create an empty database and remember its name.  We generally use the name "reger"</li>
+   </ul>
+
+<li>Create a User with Access</li>
+   <ul>
+   <li>Now that you have a database, you need a user that can access that database.</li>
+   <li>You may want to use a graphical tool like the <a href='http://www.mysql.com/products/administrator/'>MySql Administrator</a>.</li>
+   <li>Create a user and grant that user Select, Insert, Update, Delete, Create, Drop, Alter and Index privileges on the database that you created above.</li>
+   <li>Graphical tools can be picky and sometimes don't accept changes in privileges.  Go back and verify that the user you create has the correct permissions.</li>
+   </ul>
+
+</ol>
+
+</font>
+
+
+<br><br>
+<font face=arial size=-1 color=#cccccc><a href='setup-01.log'>I'm done! The MySql database is setup and configured per above.</a></font>
+<br>

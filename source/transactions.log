@@ -1,0 +1,162 @@
+<%@ page import="reger.core.db.Db,
+                 reger.core.licensing.License,
+                 java.util.Hashtable,
+                 java.util.Iterator,
+                 java.util.Map,
+                 reger.licensingapi.LicenseDb,
+                 java.util.Enumeration"%>
+
+<%
+String pathToAppRoot = "";
+%>
+
+<%@ include file="globalheader.jsp" %>
+
+<%
+/*----------------------------------------------------*/
+/*                  Main Body                         */
+        StringBuffer mb = new StringBuffer();
+/*----------------------------------------------------*/
+
+
+
+mb.append("<br><br>");
+
+int transactioncount = 0;
+//-----------------------------------
+//-----------------------------------
+String[][] rstCountErrors= Db.RunSQL("SELECT count(*) FROM transaction");
+//-----------------------------------
+//-----------------------------------
+if (rstCountErrors!=null && rstCountErrors.length>0){
+	transactioncount = Integer.parseInt(rstCountErrors[0][0]);
+
+}
+int currentpage=1;
+if (request.getParameter("currentpage")!=null && reger.core.Util.isinteger(request.getParameter("currentpage"))){
+    currentpage=Integer.parseInt(request.getParameter("currentpage"));
+}
+int perpage = 50;
+//mb.append(reger.pagingLinkPrint.getHtml(transactioncount, currentpage, perpage, request));
+////Limit vars
+//int limitMin = (currentpage * perpage) - perpage;
+//int limitMax = perpage;
+//
+//if (request.getParameter("numdeleted")!=null){
+//    mb.append(reger.InfoBox.get(reger.InfoBox.BOXTYPECOMPLETE, pageProps.pathToAppRoot, request.getParameter("numdeleted")+" events deleted."));
+//}
+
+
+//Start the page display
+
+
+
+
+
+mb.append("<table cellpadding=5 cellspacing=2 width=100% border=1>");
+
+mb.append("<tr>");
+mb.append("<td bgcolor=#cccccc valign=top align=left>");
+mb.append("<font face=arial size=-1>");
+mb.append("Transactionid");
+mb.append("</font>");
+mb.append("</td>");
+mb.append("<td bgcolor=#cccccc valign=top align=left>");
+mb.append("<font face=arial size=-1>");
+mb.append("Licenseid");
+mb.append("</font>");
+mb.append("</td>");
+mb.append("<td bgcolor=#cccccc valign=top align=left>");
+mb.append("<font face=arial size=-1>");
+mb.append("Date");
+mb.append("</font>");
+mb.append("</td>");
+mb.append("<td bgcolor=#cccccc valign=top align=left>");
+mb.append("<font face=arial size=-1>");
+mb.append("Sent");
+mb.append("</font>");
+mb.append("</td>");
+mb.append("<td bgcolor=#cccccc valign=top align=left>");
+mb.append("<font face=arial size=-1>");
+mb.append("Recieved");
+mb.append("</font>");
+mb.append("</td>");
+mb.append("</tr>");
+
+//-----------------------------------
+//-----------------------------------
+    String[][] rs = reger.core.db.Db.RunSQL("SELECT transactionid, transactiondatetime, sentstring, resultstring, licenseid FROM transaction ORDER BY transactionid DESC");
+//-----------------------------------
+//-----------------------------------
+    if (rs!=null && rs.length>0){
+        for(int i=0; i<rs.length; i++){
+            mb.append("<tr>");
+
+
+            //Transactionid
+            mb.append("<td valign=top align=left>");
+            mb.append("<font face=arial size=-1>");
+            mb.append(rs[i][0]);
+            mb.append("</font>");
+            mb.append("</td>");
+
+            //Licenseid
+            mb.append("<td valign=top align=left>");
+            mb.append("<font face=arial size=-1>");
+            mb.append("<a href='createlicense.log?licenseid="+rs[i][4]+"'>");
+            mb.append(rs[i][4]);
+            mb.append("</a>");
+            mb.append("</font>");
+            mb.append("</td>");
+
+            //Datetime
+            mb.append("<td valign=top align=left>");
+            mb.append("<font face=arial size=-1>");
+            mb.append(reger.core.TimeUtils.dateformatcompactwithtime(reger.core.TimeUtils.dbstringtocalendar(rs[i][1])));
+            mb.append("</font>");
+            mb.append("</td>");
+
+            //Sent
+            mb.append("<td valign=top align=left>");
+            mb.append("<font face=arial size=-1>");
+            mb.append("<textarea rows=5 cols=40>");
+            mb.append(rs[i][2]);
+            mb.append("</textarea>");
+            mb.append("</font>");
+            mb.append("</td>");
+
+            //Received
+            mb.append("<td valign=top align=left>");
+            mb.append("<font face=arial size=-1>");
+            mb.append("<textarea rows=5 cols=40>");
+            mb.append(rs[i][3]);
+            mb.append("</textarea>");
+            mb.append("</font>");
+            mb.append("</td>");
+
+            mb.append("</tr>");
+        }
+    } else {
+        mb.append("<td valign=top align=left colspan=5>");
+        mb.append("<font face=arial size=-1>");
+        mb.append("No transactions found.");
+        mb.append("</font>");
+        mb.append("</td>");
+        mb.append("</tr>");
+    }
+
+
+mb.append("</table>");
+
+
+
+
+
+
+
+
+%>
+
+
+<%@ include file="globalfooter.jsp" %>
+

@@ -1,0 +1,55 @@
+<%@ page import="reger.core.db.Db,
+                 reger.core.licensing.License,
+                 java.util.Hashtable,
+                 java.util.Iterator,
+                 java.util.Map,
+                 reger.licensingapi.LicenseDb"%>
+
+<%
+String pathToAppRoot = "";
+%>
+
+<%@ include file="globalheader.jsp" %>
+
+<%
+/*----------------------------------------------------*/
+/*                  Main Body                         */
+        StringBuffer mb = new StringBuffer();
+/*----------------------------------------------------*/
+
+//Search form
+String licString = request.getParameter("encryptedlicense");
+if (licString==null){
+    licString = "";
+}
+
+mb.append("<form action=licensereader.log method=post>");
+mb.append("<textarea name=encryptedlicense rows=10 cols=60 style=\"width: 100%;\">"+licString+"</textarea>");
+mb.append("<br><input type=submit value='Read'>");
+mb.append("</form><br>");
+
+
+if (request.getParameter("encryptedlicense")!=null){
+    License lic = new License(null, request.getParameter("encryptedlicense"));
+    String decryptedLicense = lic.getDecryptedLicense();
+    String[] nameValuePairs = decryptedLicense.split("&");
+    StringBuffer nvp = new StringBuffer();
+    for (int j = 0; j < nameValuePairs.length; j++) {
+        String nameValuePair = nameValuePairs[j];
+        nvp.append(nameValuePair + "<br>");
+    }
+    mb.append(nvp);
+
+}
+
+
+
+
+
+
+
+%>
+
+
+<%@ include file="globalfooter.jsp" %>
+
