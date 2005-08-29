@@ -1,9 +1,11 @@
 
-<project name="MainBuild" default="buildWar" basedir=".">
+<project name="RegerLicensing" default="QuickBuild" basedir=".">
   <description>
         Builds the licensing app.
   </description>
 
+  <!-- Import properties file -->
+  <property file="RegerLicensing.properties"/>
                  
 
   <!-- Create a buildnumber -->
@@ -24,12 +26,12 @@
   <property file="build.number"/>
 
   <!-- Set internal script properties -->
-  <property name="tomcat.app.name" value="regerLicensing"/>
-  <property name="lastbuild" location="builds/lastbuild/regerLicensing"/>
-  <property name="wardir" location="builds/WARs/regerLicensing"/>
-  <property name="javasrc" location="builds/lastbuild/regerLicensing/WEB-INF/classes"/>
-  <property name="builddir" location="builds"/>
-  <property name="sourcedir" location="source"/>
+  <property name="tomcat.app.name" value="RegerLicensing"/>
+  <property name="builddir" value="${builds.directory}"/>
+  <property name="lastbuild" value="${builddir}/lastbuild/${tomcat.app.name}"/>
+  <property name="wardir" value="${builddir}/WARs/${tomcat.app.name}"/>
+  <property name="javasrc" value="${builddir}/lastbuild/${tomcat.app.name}/WEB-INF/classes"/>
+  <property name="sourcedir" value="${source.root.directory}"/>
 
 
   <!-- First, Delete any files in the lastbuild folder -->
@@ -117,7 +119,21 @@
 	
     
 
-    
+    <target name="QuickBuild" description="Compile the java source and put in Tomcat working directory">
+  	 	<echo message="Compiling Java code."/>
+     	<copy todir="${lastbuild}" >
+            <fileset dir="${sourcedir}" excludes="**/Thumbs.db"/>
+        </copy>
+
+     	<javac srcdir="${javasrc}" destdir="${quickbuild.compiled.destination.directory}" excludes="**.x" debug="on" />
+		<copy todir="${quickbuild.tomcat.root.directory}">
+			<fileset dir="${lastbuild}">
+			</fileset>
+		</copy>
+		<!--
+		<ant antfile="TomcatDeploy.xml" target="reloadApp" inheritAll="true"/>
+		-->
+	</target>
 
     
 
