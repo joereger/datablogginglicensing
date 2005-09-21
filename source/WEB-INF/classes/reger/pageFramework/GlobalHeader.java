@@ -40,7 +40,7 @@ public class GlobalHeader {
 
 
         } catch (Exception e){
-            reger.core.Util.errorsave(e);
+            reger.core.Debug.errorsave(e, "GlobalHeader.java");
         }
 
     }

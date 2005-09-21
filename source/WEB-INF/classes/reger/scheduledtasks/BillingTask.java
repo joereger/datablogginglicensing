@@ -30,9 +30,9 @@ public class BillingTask implements ScheduledTask{
                     licDb.doBilling();
 
                 } catch (VerisignException vex){
-                    reger.core.Util.debug(3, vex);
+                    reger.core.Debug.debug(3, "BillingTask.java", vex);
                 } catch (Exception e){
-                    reger.core.Util.errorsave(e);
+                    reger.core.Debug.errorsave(e, "BillingTask.java");
                 }
             }
         }

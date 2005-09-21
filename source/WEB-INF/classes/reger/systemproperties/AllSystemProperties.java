@@ -12,7 +12,6 @@ public class AllSystemProperties {
     public static void loadProperties(){
         properties = new SystemProperty[0];
         //properties[0] = new PathUploadMedia();
-
     }
 
     public static SystemProperty[] getAllSystemProperties(){

@@ -65,7 +65,7 @@ public class Verisign {
         } catch (VerisignException vex){
             throw vex;
         } catch (Exception e){
-            reger.core.Util.errorsave(e);
+            reger.core.Debug.errorsave(e, "Verisign.java");
             VerisignException ex = new VerisignException();
             ex.sentString = buildSubmitString();
             ex.receivedString = "";
@@ -167,7 +167,7 @@ public class Verisign {
         //out.println(test("name3"))
 
         Hashtable outHashtable = new Hashtable();
-        reger.core.Util.debug(5, "Verisign.java parseNVPairs() instring=" + instring);
+        reger.core.Debug.debug(4, "Verisign.java", "Verisign.java parseNVPairs() instring=" + instring);
 
         if (instring!=null && !instring.equals("")){
             //Split on & to get nv pairs
@@ -180,11 +180,11 @@ public class Verisign {
                     String[] tmpArr = splitarray[i].split("=");
                     if (tmpArr!=null && tmpArr.length>=2){
                         //Add to the hashtable
-                        reger.core.Util.debug(5, "Verisign.java parseNVPairs() outHashtable.put("+tmpArr[0]+", "+tmpArr[1]+")");
+                        reger.core.Debug.debug(4, "Verisign.java", "Verisign.java parseNVPairs() outHashtable.put("+tmpArr[0]+", "+tmpArr[1]+")");
                         outHashtable.put(tmpArr[0], tmpArr[1]);
                     } else if (tmpArr!=null && tmpArr.length==1){
                         //Add to the hashtable
-                        reger.core.Util.debug(5, "Verisign.java parseNVPairs() outHashtable.put("+tmpArr[0]+", )");
+                        reger.core.Debug.debug(5, "Verisign.java", "Verisign.java parseNVPairs() outHashtable.put("+tmpArr[0]+", )");
                         outHashtable.put(tmpArr[0], "");
                     }
 

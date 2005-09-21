@@ -20,7 +20,7 @@ public class GlobalFooter {
 
             //Header Start
 
-            output.append("<font face=arial style=\"font-size: 72px;\" color=#00ff00><b>Licensing</b></font><br>");
+            output.append("<font style=\"font-size: 72px; font-family: impact, arial, sans serif;\" color=#00ff00><b>Licensing</b></font><br>");
             output.append("<font face=arial style=\"font-size: 10px;\" color=#00ff00>");
             output.append("<a href='index.log'>Home</a> | ");
             output.append("<a href='find.log'>Find</a> | ");
@@ -47,7 +47,7 @@ public class GlobalFooter {
 
 
         } catch (Exception ex){
-            reger.core.Util.errorsave(ex, "Error in GlobalFooter.java");
+            reger.core.Debug.errorsave(ex, "GlobalFooter.java", "Error in GlobalFooter.java");
         }
     }
 

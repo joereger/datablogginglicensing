@@ -18,7 +18,7 @@ public class RegerLicensingApiServer {
 
         //@todo Check requiredness of fields
 
-        reger.core.Util.debug(3, "Incoming RegerLicensingApiServer.java request.");
+        reger.core.Debug.debug(3, "RegerLicensingApiServer.java", "Incoming RegerLicensingApiServer.java request.");
 
         //Get the name/value pairs out of the license
         License proposedLic = new License(null, encryptedLicense);
@@ -46,14 +46,14 @@ public class RegerLicensingApiServer {
         License lic1 = new License(null, testLicDb.getEncryptedlicense());
         License lic2 = new License(null, encryptedCurrentLicense);
 
-        reger.core.Util.debug(3, "RegerLicensingApiServer.java <br>currentlicenseid=" + currentlicenseid +"<br>testLicDb.getEncryptedlicense()=<br>" + testLicDb.getEncryptedlicense() + "<br>encryptedCurrentLicense=<br>"+encryptedCurrentLicense);
+        reger.core.Debug.debug(3, "RegerLicensingApiServer.java", "RegerLicensingApiServer.java <br>currentlicenseid=" + currentlicenseid +"<br>testLicDb.getEncryptedlicense()=<br>" + testLicDb.getEncryptedlicense() + "<br>encryptedCurrentLicense=<br>"+encryptedCurrentLicense);
         if (License.licensesAreEqual(lic1, lic2)){
             //We have a valid incoming license
             //Set the licenseid of the licenseDb object so that we're editing, not creating
             licDb.setLicenseid(currentlicenseid);
-            reger.core.Util.debug(3, "RegerLicensingApiServer.java <br>currentlicenseid=" + currentlicenseid +"<br>licDb.setLicenseid() was called.");
+            reger.core.Debug.debug(3, "RegerLicensingApiServer.java", "RegerLicensingApiServer.java <br>currentlicenseid=" + currentlicenseid +"<br>licDb.setLicenseid() was called.");
         } else {
-            reger.core.Util.debug(3, "RegerLicensingApiServer.java <br>currentlicenseid=" + currentlicenseid +"<br>licDb.setLicenseid() was NOT called.");
+            reger.core.Debug.debug(3, "RegerLicensingApiServer.java", "RegerLicensingApiServer.java <br>currentlicenseid=" + currentlicenseid +"<br>licDb.setLicenseid() was NOT called.");
         }
 
         //Save to db
