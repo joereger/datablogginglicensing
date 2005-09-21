@@ -15,7 +15,7 @@ if (request.getParameter("action")!=null && request.getParameter("action").equal
 StringBuffer output = new StringBuffer();
 
 
-output.append("<font face=arial style=\"font-size: 72px;\" color=#00ff00><b>Licensing</b></font><br>");
+output.append("<font style=\"font-size: 72px; font-family: impact, arial, sans serif;\" color=#00ff00><b>Licensing</b></font><br>");
 output.append("<br>");
 
 output.append("<form action=login.log method=post>");
