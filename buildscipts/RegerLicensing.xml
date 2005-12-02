@@ -33,6 +33,31 @@
   <property name="javasrc" value="${builddir}/lastbuild/${tomcat.app.name}/WEB-INF/classes"/>
   <property name="sourcedir" value="${source.root.directory}"/>
 
+    <property name="tomcatjarsforclasspath" value="
+                ${tomcat.install.directory}/common/lib/jsp-api.jar;
+                ${tomcat.install.directory}/common/lib/servlet-api.jar;
+                ${tomcat.install.directory}/server/lib/catalina.jar;
+                ${tomcat.install.directory}/server/lib/catalina-optional.jar;
+                ${tomcat.install.directory}/server/lib/catalina-ant.jar;
+                ${tomcat.install.directory}/server/lib/servlets-common.jar;
+                ${tomcat.install.directory}/server/lib/servlets-default.jar;
+          "/>
+          <property name="thirdpartylibs" value="
+            ${sourcedir}/WEB-INF/lib/activation.jar;
+            ${sourcedir}/WEB-INF/lib/commons-codec-1.2.jar;
+            ${sourcedir}/WEB-INF/lib/commons-collections.jar;
+            ${sourcedir}/WEB-INF/lib/commons-dbcp-1.2.1.jar;
+            ${sourcedir}/WEB-INF/lib/commons-pool-1.2.jar;
+            ${sourcedir}/WEB-INF/lib/oscache-2.1.1.jar;
+            ${sourcedir}/WEB-INF/lib/proxool-0.8.3.jar;
+            ${sourcedir}/WEB-INF/lib/xmlrpc-2.0.jar;
+            ${sourcedir}/WEB-INF/lib/xstream-1.0.2.jar;
+            ${sourcedir}/WEB-INF/lib/Verisign.jar;
+            ${sourcedir}/WEB-INF/lib/regercore.jar;
+            ${sourcedir}/WEB-INF/lib/mysql-connector-java-3.1.8-bin.jar;
+      "/>
+
+
 
   <!-- First, Delete any files in the lastbuild folder -->
   <target name="cleanuplastbuild" description="Cleans up the last build" depends="timestamp">
@@ -54,7 +79,7 @@
   <!-- Compile the app-->
    <target name="compile" description="compile the source" depends="movefilestolastbuild">
   	 <echo message="Compiling Java code."/>
-     <javac srcdir="${javasrc}" excludes="**.x" debug="on" classpath=""/>
+       <javac srcdir="${javasrc}" excludes="**.x" debug="on" classpath="${tomcatjarsforclasspath}; ${thirdpartylibs}"/>
    </target>
 
    
