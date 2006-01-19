@@ -6,6 +6,7 @@ import reger.core.licensing.License;
 import java.util.Hashtable;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -18,7 +19,7 @@ public class Verisign {
 
     private int licenseid = 0;
 
-    private String verisignHostAddress = "test-payflow.verisign.com";
+    private String verisignHostAddress = "payflow.verisign.com";
     private String verisignUser = "regercom";
     private String verisignPassword = "physics1";
     private String verisignVendor = "";
@@ -48,16 +49,33 @@ public class Verisign {
             expyear = "0" + expyear;
         }
 
-        //Set the variables
-        props = new Hashtable();
-        props.put("AMT", String.valueOf(amt));
-        props.put("ACCT", String.valueOf(acct));
-        props.put("EXPDATE", expmonth + expyear);
-        props.put("STREET", String.valueOf(street));
-        props.put("ZIP", String.valueOf(zip));
-        props.put("TRXTYPE", String.valueOf("S"));
-        props.put("TENDER", String.valueOf("C"));
-        //props.put("ACTION", String.valueOf("A"));
+        try{
+            //Format currency
+            NumberFormat formatter = DecimalFormat.getInstance();
+            formatter.setMinimumFractionDigits(2);
+            formatter.setMaximumFractionDigits(2);
+            amt = formatter.format(Double.parseDouble(amt));
+
+            //Set the variables
+            props = new Hashtable();
+            props.put("AMT", String.valueOf(amt));
+            props.put("ACCT", String.valueOf(acct));
+            props.put("EXPDATE", expmonth + expyear);
+            props.put("STREET", String.valueOf(street));
+            props.put("ZIP", String.valueOf(zip));
+            props.put("TRXTYPE", String.valueOf("S"));
+            props.put("TENDER", String.valueOf("C"));
+            //props.put("ACTION", String.valueOf("A"));
+
+        } catch (Exception e){
+            reger.core.Debug.errorsave(e, "Verisign.java");
+            VerisignException ex = new VerisignException();
+            ex.sentString = buildSubmitString();
+            ex.receivedString = "";
+            ex.recievedProps =  new Hashtable();
+            throw ex;
+        }
+
 
         //Make the call to verisign
         try{

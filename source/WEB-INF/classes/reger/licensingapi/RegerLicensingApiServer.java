@@ -5,6 +5,7 @@ import reger.core.licensing.License;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Enumeration;
+import java.util.HashMap;
 
 /**
  * Handles licensing api requests
@@ -22,7 +23,7 @@ public class RegerLicensingApiServer {
 
         //Get the name/value pairs out of the license
         License proposedLic = new License(null, encryptedLicense);
-        Hashtable licenseProps = proposedLic.getProps();
+        HashMap licenseProps = proposedLic.getProps();
 
         //Create the license
         License lic = new License(null, licenseProps);
@@ -32,7 +33,7 @@ public class RegerLicensingApiServer {
 
         //Get the name/value pairs out of the license
         License currentLic = new License(null, encryptedCurrentLicense);
-        Hashtable currentlicenseProps = proposedLic.getProps();
+        HashMap currentlicenseProps = proposedLic.getProps();
 
         //Get the licenseid of the current license
         int currentlicenseid = 0;
@@ -102,7 +103,7 @@ public class RegerLicensingApiServer {
 
         //Get the name/value pairs out of the license
         License proposedLic = new License(null, encryptedLicense);
-        Hashtable licenseProps = proposedLic.getProps();
+        HashMap licenseProps = proposedLic.getProps();
 
         //Get licenseid
         int licenseid=0;

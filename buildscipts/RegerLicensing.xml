@@ -1,12 +1,12 @@
 
-<project name="RegerLicensing" default="QuickBuild" basedir=".">
+<project name="RegerCom" default="QuickBuild" basedir=".">
   <description>
-        Builds the licensing app.
+        The core build script.
   </description>
 
   <!-- Import properties file -->
   <property file="RegerLicensing.properties"/>
-                 
+
 
   <!-- Create a buildnumber -->
   <target name="buildnumber" description="Create a build number.">
@@ -26,42 +26,25 @@
   <property file="build.number"/>
 
   <!-- Set internal script properties -->
-  <property name="tomcat.app.name" value="RegerLicensing"/>
+  <property name="tomcat.app.name" value="RegerCom"/>
   <property name="builddir" value="${builds.directory}"/>
   <property name="lastbuild" value="${builddir}/lastbuild/${tomcat.app.name}"/>
   <property name="wardir" value="${builddir}/WARs/${tomcat.app.name}"/>
   <property name="javasrc" value="${builddir}/lastbuild/${tomcat.app.name}/WEB-INF/classes"/>
   <property name="sourcedir" value="${source.root.directory}"/>
 
-    <property name="tomcatjarsforclasspath" value="
-                ${tomcat.install.directory}/common/lib/jsp-api.jar;
-                ${tomcat.install.directory}/common/lib/servlet-api.jar;
-                ${tomcat.install.directory}/server/lib/catalina.jar;
-                ${tomcat.install.directory}/server/lib/catalina-optional.jar;
-                ${tomcat.install.directory}/server/lib/catalina-ant.jar;
-                ${tomcat.install.directory}/server/lib/servlets-common.jar;
-                ${tomcat.install.directory}/server/lib/servlets-default.jar;
-          "/>
-          <property name="thirdpartylibs" value="
-            ${sourcedir}/WEB-INF/lib/activation.jar;
-            ${sourcedir}/WEB-INF/lib/commons-codec-1.2.jar;
-            ${sourcedir}/WEB-INF/lib/commons-collections.jar;
-            ${sourcedir}/WEB-INF/lib/commons-dbcp-1.2.1.jar;
-            ${sourcedir}/WEB-INF/lib/commons-pool-1.2.jar;
-            ${sourcedir}/WEB-INF/lib/oscache-2.1.1.jar;
-            ${sourcedir}/WEB-INF/lib/proxool-0.8.3.jar;
-            ${sourcedir}/WEB-INF/lib/xmlrpc-2.0.jar;
-            ${sourcedir}/WEB-INF/lib/xstream-1.0.2.jar;
-            ${sourcedir}/WEB-INF/lib/Verisign.jar;
-            ${sourcedir}/WEB-INF/lib/regercore.jar;
-            ${sourcedir}/WEB-INF/lib/mysql-connector-java-3.1.8-bin.jar;
-      "/>
 
+  <path id="lib.classpath">
+      <fileset dir="${sourcedir}/WEB-INF/lib">
+        <include name="**/*.jar" />
+      </fileset>
+      <fileset dir="${tomcat.install.directory}/common/lib">
+        <include name="**/*.jar" />
+      </fileset>
+  </path>
 
-
-  <!-- First, Delete any files in the lastbuild folder -->
+  <!-- Delete any files in the lastbuild folder... start fresh my friend... start fresh. -->
   <target name="cleanuplastbuild" description="Cleans up the last build" depends="timestamp">
-    <echo message="Cleaning up lastbuild for: ${tomcat.app.name}"/>
     <delete dir="${lastbuild}"/>
   </target>
 
@@ -73,18 +56,41 @@
       </copy>
   </target>
 
-
-
-
   <!-- Compile the app-->
    <target name="compile" description="compile the source" depends="movefilestolastbuild">
-  	 <echo message="Compiling Java code."/>
-       <javac srcdir="${javasrc}" excludes="**.x" debug="on" classpath="${tomcatjarsforclasspath}; ${thirdpartylibs}"/>
+  	  <echo message="Compiling Java code."/>
+        <javac srcdir="${javasrc}" includes="**/**" debug="true" deprecation="true">
+            <classpath>
+                <path refid="lib.classpath" />
+            </classpath>
+        </javac>
    </target>
 
-   
-   <!-- Package the app for Dev -->
-   <target name="package" description="Create the WAR file" depends="compile">
+    <!--
+   <taskdef name="aopc" classname="org.jboss.aop.ant.AopC" classpathref="lib.classpath"/>
+   <target name="aopc" depends="compile" description="Precompile aop classes">
+  	    <aopc compilerclasspathref="lib.classpath" verbose="false">
+            <classpath path="${javasrc}"/>
+            <src path="${javasrc}"/>
+            <include name="**/*.class"/>
+            <aoppath path="${sourcedir}/WEB-INF/jboss-aop.xml"/>
+         </aopc>
+   </target>
+   -->
+
+   <!-- Create reger.jar package -->
+   <!-- This set of core functions is used in other Reger.com supporting apps. -->
+   <target name="createregerjar" description="Creates the re-usable regercore.jar package" depends="compile">
+        <echo message="Creating regercore.jar."/>
+        <jar jarfile="${builddir}/regercore.jar">
+            <fileset dir="${javasrc}">
+                <include name="reger/core/**"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </jar>
+   </target>
+
+   <target name="package" description="Packages files for the build" depends="compile">
         <echo message="Packaging ${tomcat.app.name}'s war file."/>
         <delete>
             <fileset dir="." includes="*.war"/>
@@ -107,59 +113,47 @@
         </jar>
    </target>
 
-   
-
-
-    
-    <!-- Dev WAR file builders -->
-    <!-- Use to build WAR file to manually deploy. -->
-    <!-- It will be called ROOT.war and will be found in the root build directory -->
-    <target name="buildWar" description="Builds a war file and does not deploy it." depends="packagewithsource">
-        <echo message="Creating licensing.war for ${tomcat.app.name}."/>
-        <copy file="${tomcat.app.name}-(bld${build.number})-${build.time}.war" tofile="${wardir}/licensing.war" overwrite="true"/>
-		<delete file="${tomcat.app.name}-(bld${build.number})-${build.time}.war"/>
-    </target>
-
-
-
-
-
     <!-- Create javaDoc -->
     <target name="createJavaDoc" description="Creates javadoc" depends="">
         <echo message="Creating javaDoc for ${tomcat.app.name}."/>
         <delete dir="${builddir}/javaDoc"/>
-
         <javadoc destdir="${builddir}/javaDoc" author="true" version="true" use="true" windowtitle="Reger.com javaDoc">
-
             <packageset dir="${sourcedir}/WEB-INF/classes" defaultexcludes="yes">
                 <include name="reger/**" />
             </packageset>
-
             <doctitle><![CDATA[<h1>Reger.com</h1>]]></doctitle>
-            <bottom><![CDATA[<i>Copyright &#169; 2005 Reger.com. Confidential and proprietary. All Rights Reserved.</i>]]></bottom>
-
+            <bottom><![CDATA[<i>Copyright &#169; 2006 Reger.com. Confidential and proprietary. All Rights Reserved.</i>]]></bottom>
         </javadoc>
-
     </target>
-	
-    
 
     <target name="QuickBuild" description="Compile the java source and put in Tomcat working directory">
   	 	<echo message="Compiling Java code."/>
      	<copy todir="${lastbuild}" >
             <fileset dir="${sourcedir}" excludes="**/Thumbs.db"/>
         </copy>
-
-     	<javac srcdir="${javasrc}" destdir="${quickbuild.compiled.destination.directory}" excludes="**.x" debug="on" />
+		<javac srcdir="${javasrc}" destdir="${quickbuild.compiled.destination.directory}" includes="**/**" debug="true" deprecation="true">
+            <classpath>
+                <path refid="lib.classpath" />
+            </classpath>
+        </javac>
+        <!--
+        <aopc compilerclasspathref="lib.classpath" verbose="false">
+            <classpath path="${quickbuild.compiled.destination.directory}"/>
+            <src path="${quickbuild.compiled.destination.directory}"/>
+            <include name="**/*.class"/>
+            <aoppath path="${sourcedir}/WEB-INF/jboss-aop.xml"/>
+         </aopc>
+         -->
 		<copy todir="${quickbuild.tomcat.root.directory}">
 			<fileset dir="${lastbuild}">
 			</fileset>
 		</copy>
-		<!--
-		<ant antfile="TomcatDeploy.xml" target="reloadApp" inheritAll="true"/>
-		-->
 	</target>
 
-    
+	<target name="buildWar" description="Builds a war file." depends="packagewithsource">
+        <echo message="Creating ROOT.war for ${tomcat.app.name}."/>
+        <copy file="${tomcat.app.name}-(bld${build.number})-${build.time}.war" tofile="${wardir}/ROOT.war" overwrite="true"/>
+		<delete file="${tomcat.app.name}-(bld${build.number})-${build.time}.war"/>
+    </target>
 
 </project>
