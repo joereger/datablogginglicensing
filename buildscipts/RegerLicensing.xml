@@ -1,5 +1,5 @@
 
-<project name="RegerCom" default="QuickBuild" basedir=".">
+<project name="RegerLicensing" default="QuickBuild" basedir=".">
   <description>
         The core build script.
   </description>
@@ -151,8 +151,8 @@
 	</target>
 
 	<target name="buildWar" description="Builds a war file." depends="packagewithsource">
-        <echo message="Creating ROOT.war for ${tomcat.app.name}."/>
-        <copy file="${tomcat.app.name}-(bld${build.number})-${build.time}.war" tofile="${wardir}/ROOT.war" overwrite="true"/>
+        <echo message="Creating licensing.war for ${tomcat.app.name}."/>
+        <copy file="${tomcat.app.name}-(bld${build.number})-${build.time}.war" tofile="${wardir}/licensing.war" overwrite="true"/>
 		<delete file="${tomcat.app.name}-(bld${build.number})-${build.time}.war"/>
     </target>
 

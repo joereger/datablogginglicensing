@@ -29,6 +29,7 @@ public class Loader extends HttpServlet {
         System.out.println("Reger.com Licensing: reger.core.WebAppRootDir=" + reger.core.WebAppRootDir.getWebAppRootPath());
         System.out.println("Reger.com Licensing: reger.core.ContextName=" + reger.core.ContextName.getContextName());
         //Make sure we have a valid db connection
+        
         if (!DbConfig.haveValidConfig()){
             System.out.println("Reger.com Licensing: Loader.java init() method, no valid dbconfig found, returning.");
             return;
