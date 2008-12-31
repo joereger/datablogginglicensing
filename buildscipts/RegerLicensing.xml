@@ -26,7 +26,7 @@
   <property file="build.number"/>
 
   <!-- Set internal script properties -->
-  <property name="tomcat.app.name" value="RegerCom"/>
+  <property name="tomcat.app.name" value="RegerLicensing"/>
   <property name="builddir" value="${builds.directory}"/>
   <property name="lastbuild" value="${builddir}/lastbuild/${tomcat.app.name}"/>
   <property name="wardir" value="${builddir}/WARs/${tomcat.app.name}"/>
@@ -38,9 +38,13 @@
       <fileset dir="${sourcedir}/WEB-INF/lib">
         <include name="**/*.jar" />
       </fileset>
-      <fileset dir="${tomcat.install.directory}/common/lib">
+      <fileset dir="${tomcat.install.directory}/lib">
         <include name="**/*.jar" />
       </fileset>
+      <!--<fileset dir="${tomcat.install.directory}/common/lib">-->
+        <!--<include name="**/*.jar" />-->
+      <!--</fileset>-->
+      <pathelement path="${javasrc}" />
   </path>
 
   <!-- Delete any files in the lastbuild folder... start fresh my friend... start fresh. -->

@@ -5,6 +5,7 @@
                  java.util.Map,
                  reger.licensingapi.LicenseDb,
                  reger.licensingapi.RegerLicensingApiServer"%>
+<%@ page import="java.util.HashMap" %>
 
 <%
 String pathToAppRoot = "";
@@ -42,7 +43,7 @@ if (request.getParameter("action")!=null && request.getParameter("action").equal
 
     if (licDb.getLicenseid()<=0){
         //Get the properties from the screen
-        Hashtable inProps = new Hashtable();
+        HashMap inProps = new HashMap();
         for (Iterator i=License.getAllPropTypes().entrySet().iterator(); i.hasNext(); ) {
             Map.Entry e = (Map.Entry) i.next();
             //e.getKey()
