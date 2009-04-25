@@ -54,6 +54,7 @@ if (request.getParameter("action")!=null && request.getParameter("action").equal
                 }
             }
         }
+        
         //Create the license
         lic = new License(inProps);
 
