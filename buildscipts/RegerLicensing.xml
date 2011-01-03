@@ -160,4 +160,14 @@
 		<delete file="${tomcat.app.name}-(bld${build.number})-${build.time}.war"/>
     </target>
 
+
+
+    <target name="QuickBuildClean" description="Compile the java source and put in Tomcat working directory">
+        <antcall target="cleanuplastbuild"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${quickbuild.tomcat.root.directory}" includes="**/*"/>
+        </delete>
+        <antcall target="QuickBuild"/>
+    </target>
+
 </project>
