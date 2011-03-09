@@ -157,29 +157,29 @@ class SmtpListenerConnHandler implements Runnable  {
 
 
             //Turn it into a mime message
-            javax.mail.internet.MimeMessage mimeMessage = reger.api.EmailApi.turnStringIntoEmail(rawMailMessage.toString());
+            //javax.mail.internet.MimeMessage mimeMessage = reger.api.EmailApi.turnStringIntoEmail(rawMailMessage.toString());
 
 
-            try{
-
-                //Clear recipients
-                mimeMessage.setRecipients(Message.RecipientType.TO, "");
-                mimeMessage.setRecipients(Message.RecipientType.CC, "");
-                mimeMessage.setRecipients(Message.RecipientType.BCC, "");
-
-                //Now, parse through allRcptTo, add as BCC and send to emailApi
-                for (int i = 0; i < allRcptTo.length; i++) {
-                    mimeMessage.addRecipients(Message.RecipientType.BCC, allRcptTo[i]);
-                }
-               
-
-                //Pass the message on to the emailApi
-                if (parent!= null){
-                    parent.gotMailMessage(mimeMessage);
-                }
-            } catch (Exception e) {
-                Debug.debug(5, "", e);
-            }
+//            try{
+//
+//                //Clear recipients
+//                mimeMessage.setRecipients(Message.RecipientType.TO, "");
+//                mimeMessage.setRecipients(Message.RecipientType.CC, "");
+//                mimeMessage.setRecipients(Message.RecipientType.BCC, "");
+//
+//                //Now, parse through allRcptTo, add as BCC and send to emailApi
+//                for (int i = 0; i < allRcptTo.length; i++) {
+//                    mimeMessage.addRecipients(Message.RecipientType.BCC, allRcptTo[i]);
+//                }
+//
+//
+//                //Pass the message on to the emailApi
+//                if (parent!= null){
+//                    parent.gotMailMessage(mimeMessage);
+//                }
+//            } catch (Exception e) {
+//                Debug.debug(5, "", e);
+//            }
 
 
 

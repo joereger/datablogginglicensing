@@ -20,10 +20,11 @@
  */
 package reger.core.agotext;
 
-import org.apache.log4j.Logger;
+
 
 import java.util.List;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 /**
  * Represents a simple method of formatting a specific {@link Duration} of time
@@ -57,13 +58,10 @@ public class BasicTimeFormat implements TimeFormat
     }
 
     public String format(final List<Duration> durations){
-        Logger logger = Logger.getLogger(this.getClass().getName());
-        logger.debug("===format List<Duration> called durations.size()="+durations.size());
         StringBuffer result = new StringBuffer();
         String sign = "";
         for (Iterator<Duration> iterator=durations.iterator(); iterator.hasNext();) {
             Duration duration=iterator.next();
-            logger.debug("duration.getUnit().getName()="+duration.getUnit().getName());
             long quantity = getQuantity(duration);
             sign = getSign(duration);
             String unit = getGramaticallyCorrectName(duration);

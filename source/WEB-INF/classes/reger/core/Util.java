@@ -1,7 +1,7 @@
 package reger.core;
 
 
-import reger.Account;
+//import reger.Account;
 
 import java.util.*;
 import java.io.*;
@@ -376,9 +376,9 @@ public class Util {
     /*
      * Get a permission friendly name from a permission string
      */
-    public static String getFriendlyNameFromAclobjectname(String aclobjectname){
-        return reger.acl.AllAclObjects.getAclFriendlyNameByName(aclobjectname);
-    }
+//    public static String getFriendlyNameFromAclobjectname(String aclobjectname){
+//        return reger.acl.AllAclObjects.getAclFriendlyNameByName(aclobjectname);
+//    }
 
 
     /*
@@ -915,23 +915,23 @@ public class Util {
 
 
 
-    public static StringBuffer pageFooter(String pathToAppRoot, reger.PrivateLabel pl){
-        StringBuffer f = new StringBuffer();
-
-//        f.append("<br>");
+//    public static StringBuffer pageFooter(String pathToAppRoot, reger.PrivateLabel pl){
+//        StringBuffer f = new StringBuffer();
 //
-//        f.append("<table cellspacing='0' cellpadding='0' width=100% border='0'>");
-//        f.append("<tr>");
-//        f.append("<td valign='top' align=right bgcolor=#ffffff>");
-//        f.append("<font face=arial size=-2><a href='"+pathToAppRoot+"about/terms-of-service.log'>"+pl.getTermsofuselinktext()+"</a>  &nbsp;&nbsp;  <a href='"+pathToAppRoot+"about/feedback.log' target=feedbackform>"+pl.getFeedbacklinktext()+"</a></font>");
-//        f.append("</td>");
-//        f.append("</tr>");
-//        f.append("</table>");
+////        f.append("<br>");
+////
+////        f.append("<table cellspacing='0' cellpadding='0' width=100% border='0'>");
+////        f.append("<tr>");
+////        f.append("<td valign='top' align=right bgcolor=#ffffff>");
+////        f.append("<font face=arial size=-2><a href='"+pathToAppRoot+"about/terms-of-service.log'>"+pl.getTermsofuselinktext()+"</a>  &nbsp;&nbsp;  <a href='"+pathToAppRoot+"about/feedback.log' target=feedbackform>"+pl.getFeedbacklinktext()+"</a></font>");
+////        f.append("</td>");
+////        f.append("</tr>");
+////        f.append("</table>");
+////
+////        f.append("<br><br><br>");
 //
-//        f.append("<br><br><br>");
-
-        return f;
-    }
+//        return f;
+//    }
 
     public static StringBuffer poweredby(String pathToAppRoot){
         StringBuffer f = new StringBuffer();
@@ -1337,9 +1337,9 @@ public class Util {
         return errortext;
     }
 
-    public static String validateServername(String accounturl){
-        return Account.validateServername(accounturl, -1);
-    }
+//    public static String validateServername(String accounturl){
+//        return Account.validateServername(accounturl, -1);
+//    }
 
 
     public static TreeMap requestToTreeMap(javax.servlet.http.HttpServletRequest request){

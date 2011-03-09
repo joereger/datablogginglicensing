@@ -1,7 +1,7 @@
 package reger.core.licensing;
 
 import reger.core.Debug;
-import reger.cache.providers.jboss.Cacheable;
+
 
 import java.util.*;
 
@@ -9,7 +9,6 @@ import java.util.*;
  * This class handles the main license rules for the installed version of the application.
  * The LM uses a single encoded string in the context.xml file to determine licensing properties.
  */
-@Cacheable
 public class License implements java.io.Serializable {
 
     //This absolutely can't change because old licenses won't work.

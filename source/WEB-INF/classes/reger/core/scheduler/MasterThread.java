@@ -81,11 +81,11 @@ public class MasterThread extends Thread {
             }
 
             //Refresh the account cache, now that we have a database connection
-            try{
-                reger.cache.AccountCache.flush();
-            } catch (Exception e){
-                Debug.errorsave(e, "");
-            }
+//            try{
+//                reger.cache.AccountCache.flush();
+//            } catch (Exception e){
+//                Debug.errorsave(e, "");
+//            }
 
             while (true) {
                 //Increment the thread counter
@@ -100,13 +100,13 @@ public class MasterThread extends Thread {
                                 //Set the current status
                                 currentStatus = scheduledTask[i].getTaskName();
                                 //Start the stopwatch
-                                reger.executionTime executionTime = new reger.executionTime();
+                                //reger.executionTime executionTime = new reger.executionTime();
                                 //Run the task
                                 scheduledTask[i].doTask();
                                 //Stop the stopwatch
-                                long time = executionTime.getElapsedMillis();
+                                //long time = executionTime.getElapsedMillis();
                                 //Update the task status table in the database
-                                updateTask(scheduledTask[i].getTaskName(), scheduledTask[i].getResult() + "<br><font face=arial size=-2>Execution Time: "+time+" ms</font>", masterthreadid);
+                                updateTask(scheduledTask[i].getTaskName(), scheduledTask[i].getResult() + "<br><font face=arial size=-2>Execution Time: ?? ms</font>", masterthreadid);
                             }
                         } catch (Exception e) {
                             Debug.errorsave(e, "");

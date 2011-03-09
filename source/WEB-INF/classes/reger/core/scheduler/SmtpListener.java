@@ -13,12 +13,10 @@ import java.net.*;
 public class SmtpListener implements Runnable  {
     ServerSocket slisten;
     Thread thread;
-    reger.executionTime execTime;
     boolean isPortSuccessfullyBound = false;
     public static boolean keepMeRunning = true;
 
     public SmtpListener() {
-        execTime=new reger.executionTime();
         if (reger.systemproperties.AllSystemProperties.getProp("EMAILLISTENERISON").equals("1")){
             //System.out.println("REGER: New smtplistener being started.");
             thread = new Thread(this);
@@ -41,7 +39,7 @@ public class SmtpListener implements Runnable  {
 
     // Callback from SmtpListenerConnHandler
     public synchronized void gotMailMessage(javax.mail.internet.MimeMessage mimeMessage) {
-        reger.api.EmailApi emailApi = new reger.api.EmailApi(mimeMessage);
+        //reger.api.EmailApi emailApi = new reger.api.EmailApi(mimeMessage);
     }
 
     //Status check called from MasterThread
@@ -49,9 +47,9 @@ public class SmtpListener implements Runnable  {
         String status="";
         if (reger.systemproperties.AllSystemProperties.getProp("EMAILLISTENERISON").equals("1")){
             if (isPortSuccessfullyBound){
-                status = "Listening for " + execTime.getElapsedMillis() + " millis.<br><font face=arial size=-2>IP: " + reger.systemproperties.AllSystemProperties.getProp("EMAILLISTENERIP");
+                status = "Listening for ?? millis.<br><font face=arial size=-2>IP: " + reger.systemproperties.AllSystemProperties.getProp("EMAILLISTENERIP");
             } else {
-                status = "Couldn't bind to port 25.</font><br><font face=arial size=-2>Tried " + execTime.getElapsedMillis() + " millis ago.<br>IP: " + reger.systemproperties.AllSystemProperties.getProp("EMAILLISTENERIP");
+                status = "Couldn't bind to port 25.</font><br><font face=arial size=-2>Tried ?? millis ago.<br>IP: " + reger.systemproperties.AllSystemProperties.getProp("EMAILLISTENERIP");
             }
         } else {
             status = "Not turned on in System Properties.<br><font face=arial size=-2>(Set variable EMAILLISTENERISON and EMAILLISTENERIP)";

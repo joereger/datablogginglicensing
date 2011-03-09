@@ -1,6 +1,5 @@
 package reger.core.agotext;
 
-import org.apache.log4j.Logger;
 
 import java.util.*;
 
@@ -73,8 +72,7 @@ public class AgoText {
     private Duration calculateDuration(final long difference)
     {
 
-        Logger logger = Logger.getLogger(this.getClass().getName());
-        logger.debug("calculateDuration called");
+
         long absoluteDifference = Math.abs(difference);
 
         Duration result = new Duration();
@@ -86,22 +84,18 @@ public class AgoText {
 
 
             boolean isLastUnit = (i == units.size() - 1);
-            logger.debug("unit="+unit.getName()+" isLastUnit="+isLastUnit);
+
 
             //Basically this is the quantityToNextLargerUnit to the next one up
             if (quantityToNextLargerUnit == 0 && !isLastUnit) {
                 quantityToNextLargerUnit= units.get(i + 1).getMillisPerUnit() / unit.getMillisPerUnit();
-                logger.debug("unit.getName()="+unit.getName()+" units.get(i+1).getName()="+units.get(i+1).getName()+" quantityToNextLargerUnit="+ quantityToNextLargerUnit);
             }
 
 
             //If the next larger unit up is too big or it's the last unit
-            logger.debug("absoluteDifference / millisPerUnit="+absoluteDifference / millisPerUnit);
-            logger.debug("millisPerUnit*quantityToNextLargerUnit="+millisPerUnit*quantityToNextLargerUnit+" absoluteDifference="+absoluteDifference);
             if (millisPerUnit*quantityToNextLargerUnit > absoluteDifference || isLastUnit){
-                logger.debug("made it into loop jhjgfhgfjh");
+
                 if(millisPerUnit > absoluteDifference){
-                    logger.debug("millisPerUnit > absoluteDifference rounding up");
                     // we are rounding up: get 1 or -1 for past or future
                     //result.setQuantity(difference / absoluteDifference);
                 } else {
@@ -137,8 +131,6 @@ public class AgoText {
      *         compared dates.
      */
     public List<Duration> calculatePreciseDuration(final Date then){
-        Logger logger = Logger.getLogger(this.getClass().getName());
-        logger.debug("calculatePreciseDuration() called");
         int numberUnitsToShow = 2;
         int numberUnitsShown = 0;
         if (reference == null){ reference = TimeUtils.nowInGmtCalendar().getTime(); }
@@ -147,17 +139,13 @@ public class AgoText {
         Duration duration = calculateDuration(difference);
         result.add(duration);
         numberUnitsShown = numberUnitsShown +  1;
-        logger.debug("duration.getUnit().getName()="+duration.getUnit().getName()+" duration.getDelta()="+duration.getDelta()+" duration.getQuantity()="+duration.getQuantity());
-        logger.debug("added duration (out of while loop)");
         //Only consider a second/third term if this is a year or month
         if ((duration.getUnit() instanceof Year) || (duration.getUnit() instanceof Month)){
             while ((Math.abs(duration.getDelta()) > 0) && numberUnitsShown<numberUnitsToShow){
                 duration = calculateDuration(duration.getDelta());
-                logger.debug("duration.getUnit().getName()="+duration.getUnit().getName()+" duration.getDelta()="+duration.getDelta()+" duration.getQuantity()="+duration.getQuantity());
                 if (duration.getUnit() instanceof TimeUnit){
                     result.add(duration);
                     numberUnitsShown = numberUnitsShown + 1;
-                    logger.debug("added duration (inside while loop)");
                 }
                 if (duration.getUnit() instanceof Second){ break; }
             }

@@ -1,4 +1,4 @@
-<Context path="/licensing" docBase="/licensing" debug="1" reloadable="true" crossContext="true">
+<Context path="/" docBase="/" debug="1" reloadable="true" crossContext="true">
 
 
 

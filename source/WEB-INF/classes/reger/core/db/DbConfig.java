@@ -29,7 +29,7 @@ public class DbConfig {
     private static boolean haveNewConfigToTest = false;
     private static boolean haveAttemptedToLoadDefaultPropsFile = false;
     private static String dbPropsInternalFilename = reger.core.WebAppRootDir.getWebAppRootPath() + "conf"+File.separatorChar+"instance.props";
-    private static String dbPropsExternalFilename = "datablogging-"+reger.core.WebAppRootDir.getUniqueContextId()+"-dbconfig.txt";
+    private static String dbPropsExternalFilename = "datablogginglic-"+reger.core.WebAppRootDir.getUniqueContextId()+"-dbconfig.txt";
 
     public DbConfig(){
         System.out.println("DbConfig instanciated");
